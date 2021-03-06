@@ -113,6 +113,5 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-
-# ignore setting
-/django_project/settings.py
+$ ingore image files
+media/profile_pics
