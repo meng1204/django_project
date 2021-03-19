@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 # shell: Database query
 # include mode: from django.models import Post
@@ -11,14 +12,20 @@ from django.contrib.auth.models import User
 # Insert post for this user: user.post_set.create(title="Blog 3", content= "Third Post Content")
 
 # Create your models here.
+
+
 class Post(models.Model):
     title = models.CharField(max_length=100)
-    content = models.TextField() # text without restriction
+    content = models.TextField()  # text without restriction
     date_posted = models.DateTimeField(default=timezone.now)
-    author = models.ForeignKey(User, on_delete= models.CASCADE)  # user is deleted, then delete all posts
+    # user is deleted, then delete all posts
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
 
     #  Show Objects Name
     def __str__(self):
         return self.title
-        
 
+    def get_absolute_url(self):
+        # redirect: redirect view page to other pages
+        # reverse: return url as string
+        return reverse('post-detail', kwargs={'pk': self.pk})
