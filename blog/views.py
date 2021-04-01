@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.models import User
 from django.views.generic import(
     ListView,
     DetailView,
@@ -28,6 +29,23 @@ class PostListView(ListView):
 
     # add pagination to list
     paginate_by = 5
+
+
+class UserPostListView(ListView):
+    model = Post
+    # set view for user post list
+    template_name = 'blog/user_posts.html'
+    context_object_name = 'posts'
+    ordering = ['-date_posted']
+
+    # add pagination to list
+    paginate_by = 5
+
+    # return 404 if user is not exist
+    def get_queryset(self):
+        user = get_object_or_404(
+            User, username=self.kwargs.get('username'))
+        return Post.objects.filter(author=user).order_by('-date_posted')
 
 
 class PostDetailView(DetailView):
