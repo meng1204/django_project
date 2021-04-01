@@ -26,6 +26,9 @@ class PostListView(ListView):
     context_object_name = 'posts'
     ordering = ['-date_posted']
 
+    # add pagination to list
+    paginate_by = 5
+
 
 class PostDetailView(DetailView):
     model = Post
